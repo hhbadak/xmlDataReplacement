@@ -1,0 +1,11 @@
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\bin\Debug\xmlDataReplacement.exe.config
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\bin\Debug\xmlDataReplacement.exe
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\bin\Debug\xmlDataReplacement.pdb
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.csproj.AssemblyReference.cache
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.csproj.SuggestedBindingRedirects.cache
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.Properties.Resources.resources
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.XmlData.resources
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.csproj.GenerateResource.cache
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.csproj.CoreCompileInputs.cache
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.exe
+C:\Users\HsnHs\OneDrive\Belgeler\GitHub\xmlDataReplacement\xmlDataReplacement\obj\Debug\xmlDataReplacement.pdb

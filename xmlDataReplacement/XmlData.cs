@@ -28,7 +28,7 @@ namespace xmlDataReplacement
             InitializeComponent();
 
             timer = new Timer();
-            timer.Interval = 30 * 60 * 1000; // 30 dakika (30 * 60 * 1000 ms)
+            timer.Interval = 30 * 60 * 1000; 
             timer.Tick += Timer_Tick;
 
             timer.Start();

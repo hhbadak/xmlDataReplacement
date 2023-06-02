@@ -28,7 +28,7 @@ namespace xmlDataReplacement
             InitializeComponent();
 
             timer = new Timer();
-            timer.Interval = 30 * 60 * 1000;
+            timer.Interval = 30 * 60 * 1000; // 30 dakika (30 * 60 * 1000 ms)
             timer.Tick += Timer_Tick;
 
             timer.Start();
@@ -36,18 +36,16 @@ namespace xmlDataReplacement
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Xml verisi indirme ve kaydetme işlemi
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
-                client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
-
-                //MessageBox.Show("Xml verisi başarıyla indirildi ve kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            // Xml verisini okuma, değiştirme ve kaydetme işlemi
             try
             {
+                // Xml verisi indirme ve kaydetme işlemi
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
+                    client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
+                }
+
+                // Xml verisini okuma, değiştirme ve kaydetme işlemi
                 DataSet dataSet = new DataSet();
                 dataSet.ReadXml(xmlPathVaryasyonluKarg10);
                 dataSet.ReadXml(xmlPathVaryasyonsuzKarg10);
@@ -71,7 +69,7 @@ namespace xmlDataReplacement
 
                 using (var fileStream = File.OpenRead(xmlPathVaryasyonluKarg10))
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "xmlPathVaryasyonluKarg10.xml");
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "varyasyonluKarg10.xml");
                     ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
                     ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 
@@ -83,7 +81,7 @@ namespace xmlDataReplacement
 
                 using (var fileStream = File.OpenRead(xmlPathVaryasyonsuzKarg10))
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "xmlPathVaryasyonsuzKarg10.xml");
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "varyasyonsuzKarg10.xml");
                     ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
                     ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 
@@ -92,6 +90,8 @@ namespace xmlDataReplacement
                         fileStream.CopyTo(ftpStream);
                     }
                 }
+                timer.Stop();
+                timer.Start();
             }
             catch (Exception ex)
             {
@@ -116,9 +116,6 @@ namespace xmlDataReplacement
 
                 //smtp.Send(ePosta);
             }
-
-            timer.Stop();
-            timer.Dispose();
         }
     }
 }

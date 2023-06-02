@@ -35,6 +35,7 @@
             this.tSS_xmlTedarik = new System.Windows.Forms.ToolStripSeparator();
             this.TSMI_xmlDunyası = new System.Windows.Forms.ToolStripMenuItem();
             this.tSS_xmlDunyası = new System.Windows.Forms.ToolStripSeparator();
+            this.firmaEkleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_list)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +60,7 @@
             this.firmalarToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -69,33 +70,39 @@
             this.TSMI_xmlTedarik,
             this.tSS_xmlTedarik,
             this.TSMI_xmlDunyası,
-            this.tSS_xmlDunyası});
+            this.tSS_xmlDunyası,
+            this.firmaEkleToolStripMenuItem});
             this.firmalarToolStripMenuItem.Name = "firmalarToolStripMenuItem";
-            this.firmalarToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
+            this.firmalarToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
             this.firmalarToolStripMenuItem.Text = "Firmalar";
             // 
             // TSMI_xmlTedarik
             // 
             this.TSMI_xmlTedarik.Name = "TSMI_xmlTedarik";
-            this.TSMI_xmlTedarik.Size = new System.Drawing.Size(170, 26);
+            this.TSMI_xmlTedarik.Size = new System.Drawing.Size(224, 26);
             this.TSMI_xmlTedarik.Text = "XmlTedarik";
-            this.TSMI_xmlTedarik.Click += new System.EventHandler(this.TSMI_xmlTedarik_Click);
             // 
             // tSS_xmlTedarik
             // 
             this.tSS_xmlTedarik.Name = "tSS_xmlTedarik";
-            this.tSS_xmlTedarik.Size = new System.Drawing.Size(167, 6);
+            this.tSS_xmlTedarik.Size = new System.Drawing.Size(221, 6);
             // 
             // TSMI_xmlDunyası
             // 
             this.TSMI_xmlDunyası.Name = "TSMI_xmlDunyası";
-            this.TSMI_xmlDunyası.Size = new System.Drawing.Size(170, 26);
+            this.TSMI_xmlDunyası.Size = new System.Drawing.Size(224, 26);
             this.TSMI_xmlDunyası.Text = "XmlDünyası";
             // 
             // tSS_xmlDunyası
             // 
             this.tSS_xmlDunyası.Name = "tSS_xmlDunyası";
-            this.tSS_xmlDunyası.Size = new System.Drawing.Size(167, 6);
+            this.tSS_xmlDunyası.Size = new System.Drawing.Size(221, 6);
+            // 
+            // firmaEkleToolStripMenuItem
+            // 
+            this.firmaEkleToolStripMenuItem.Name = "firmaEkleToolStripMenuItem";
+            this.firmaEkleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.firmaEkleToolStripMenuItem.Text = "Firma Ekle";
             // 
             // XmlData
             // 
@@ -125,5 +132,6 @@
         private System.Windows.Forms.ToolStripSeparator tSS_xmlTedarik;
         private System.Windows.Forms.ToolStripMenuItem TSMI_xmlDunyası;
         private System.Windows.Forms.ToolStripSeparator tSS_xmlDunyası;
+        private System.Windows.Forms.ToolStripMenuItem firmaEkleToolStripMenuItem;
     }
 }

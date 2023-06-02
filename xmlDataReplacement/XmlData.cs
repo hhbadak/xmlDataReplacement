@@ -69,7 +69,7 @@ namespace xmlDataReplacement
 
                 using (var fileStream = File.OpenRead(xmlPathVaryasyonluKarg10))
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "varyasyonluKarg10.xml");
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + xmlPathVaryasyonluKarg10);
                     ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
                     ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 
@@ -81,7 +81,7 @@ namespace xmlDataReplacement
 
                 using (var fileStream = File.OpenRead(xmlPathVaryasyonsuzKarg10))
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "varyasyonsuzKarg10.xml");
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + xmlPathVaryasyonsuzKarg10);
                     ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
                     ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 

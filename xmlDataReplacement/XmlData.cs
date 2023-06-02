@@ -36,18 +36,16 @@ namespace xmlDataReplacement
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Xml verisi 
+            // Xml verisi indirme ve kaydetme işlemi
             using (WebClient client = new WebClient())
             {
-                // Xml verisini indirme ve kaydetme işlemi
                 client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
                 client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
 
-                // Kullanıcıya indirme işleminin gerçekleştiğinin bildirimi
                 MessageBox.Show("Xml verisi başarıyla indirildi ve kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // Xml verisini okuma değiştirme ve kaydetme işlemi
+            // Xml verisini okuma, değiştirme ve kaydetme işlemi
             try
             {
                 DataSet dataSet = new DataSet();
@@ -58,26 +56,47 @@ namespace xmlDataReplacement
                 foreach (DataRow row in dataTable.Rows)
                 {
                     string barcode = row["barcode"].ToString();
-                    string brand = row["brand"].ToString();
+                    string brand = row["product_brand"].ToString();
 
                     row["barcode"] = "SYG-" + barcode;
-                    row["brand"] = "SYG-" + brand;
+                    row["product_brand"] = "SYG-" + brand;
                 }
 
                 dataSet.WriteXml(xmlPathVaryasyonluKarg10);
                 dataSet.WriteXml(xmlPathVaryasyonsuzKarg10);
 
-                using (var client = new WebClient())
+                string ftpUrl = "ftp://ftp.sygstore.com.tr/public_html/XML/";
+                string ftpUsername = "u1292730";
+                string ftpPassword = "15963VeksiS-";
+
+                using (var fileStream = File.OpenRead(xmlPathVaryasyonluKarg10))
                 {
-                    client.Credentials = new NetworkCredential("u1292730", "15963VeksiS-");
-                    client.UploadFile("ftp://ftp.sygstore.com.tr/public_html/XML/xmlPathVaryasyonluKarg10.xml", WebRequestMethods.Ftp.UploadFile, xmlPathVaryasyonluKarg10);
-                    client.UploadFile("ftp://ftp.sygstore.com.tr/public_html/XML/xmlPathVaryasyonsuzKarg10.xml", WebRequestMethods.Ftp.UploadFile, xmlPathVaryasyonsuzKarg10);
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "xmlPathVaryasyonluKarg10.xml");
+                    ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+
+                    using (var ftpStream = ftpRequest.GetRequestStream())
+                    {
+                        fileStream.CopyTo(ftpStream);
+                    }
+                }
+
+                using (var fileStream = File.OpenRead(xmlPathVaryasyonsuzKarg10))
+                {
+                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + "xmlPathVaryasyonsuzKarg10.xml");
+                    ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+
+                    using (var ftpStream = ftpRequest.GetRequestStream())
+                    {
+                        fileStream.CopyTo(ftpStream);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                // Hata oluştuğunda e-posta gönderme
                 MessageBox.Show("Hata: " + ex.Message);
+
                 //string username = "iletisim@sygstore.com.tr";
                 //string password = "15963VeksiS-";
                 //MailMessage ePosta = new MailMessage();
@@ -91,15 +110,11 @@ namespace xmlDataReplacement
                 //smtp.EnableSsl = true;
                 //smtp.UseDefaultCredentials = false;
                 //smtp.Port = 465;
-                //smtp.Host = "mail.sygstore.com.tr"; 
+                //smtp.Host = "mail.sygstore.com.tr";
 
                 //ServicePointManager.ServerCertificateValidationCallback += (s, certificate, chain, sslPolicyErrors) => true;
 
                 //smtp.Send(ePosta);
-
-
-
-
             }
 
             timer.Stop();
@@ -107,3 +122,4 @@ namespace xmlDataReplacement
         }
     }
 }
+

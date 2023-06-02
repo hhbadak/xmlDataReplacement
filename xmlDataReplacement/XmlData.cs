@@ -28,7 +28,7 @@ namespace xmlDataReplacement
             InitializeComponent();
 
             timer = new Timer();
-            timer.Interval = 60000;
+            timer.Interval = 30 * 60 * 1000;
             timer.Tick += Timer_Tick;
 
             timer.Start();
@@ -42,7 +42,7 @@ namespace xmlDataReplacement
                 client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
                 client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
 
-                MessageBox.Show("Xml verisi başarıyla indirildi ve kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Xml verisi başarıyla indirildi ve kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             // Xml verisini okuma, değiştirme ve kaydetme işlemi

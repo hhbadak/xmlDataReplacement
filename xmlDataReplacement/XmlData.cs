@@ -61,6 +61,11 @@ namespace xmlDataReplacement
                 {
                     client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
                     client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
+                    client.DownloadFile(mvsnXmlUrlVaryasyonsuzKarg10, mvsnXmlPathVaryasyonsuzKarg10);
+                    client.DownloadFile(mvsnXmlUrlVaryasyonluKarg10, mvsnXmlPathVaryasyonluKarg10);
+                    client.DownloadFile(xmlCekUrl, xmlCekPath);
+                    client.DownloadFile(teknoTokUrl, teknoTokPath);
+                    client.DownloadFile(xmlTedarikUrl, xmlTedarikPath);
                 }
 
                 // Xml verisini okuma, değiştirme ve kaydetme işlemi

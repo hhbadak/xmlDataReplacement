@@ -18,17 +18,27 @@ namespace xmlDataReplacement
     public partial class XmlData : Form
     {
         private Timer timer;
-        private string xmlUrlVaryasyonluKarg10 = "https://karg10.com/disari-al/l2h3sdb3/55";
+
+        #region URL
+
         private string xmlUrlVaryasyonsuzKarg10 = "https://karg10.com/disari-al/qff7cm9h/54";
-        private string xmlPathVaryasyonluKarg10 = "varyasyonluKarg10.xml";
+        string xmlUrlVaryasyonluKarg10 = "https://karg10.com/disari-al/l2h3sdb3/55";
+        string xmlCekUrl = "https://www.xmlcek.com/wp-content/uploads/woo-feed/custom/xml/xmllink.xml";
+        #endregion
+
+        #region PATH
+
         private string xmlPathVaryasyonsuzKarg10 = "varyasyonsuzKarg10.xml";
+        string xmlPathVaryasyonluKarg10 = "varyasyonluKarg10.xml";
+        string xmlCekPath = "xmlCek.xml";
+        #endregion
 
         public XmlData()
         {
             InitializeComponent();
 
             timer = new Timer();
-            timer.Interval = 30 * 60 * 1000; 
+            timer.Interval = 30 * 60 * 1000;
             timer.Tick += Timer_Tick;
 
             timer.Start();
@@ -41,57 +51,43 @@ namespace xmlDataReplacement
                 // Xml verisi indirme ve kaydetme işlemi
                 using (WebClient client = new WebClient())
                 {
-                    client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
                     client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
+                    client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
                 }
 
                 // Xml verisini okuma, değiştirme ve kaydetme işlemi
-                DataSet dataSet = new DataSet();
-                dataSet.ReadXml(xmlPathVaryasyonluKarg10);
-                dataSet.ReadXml(xmlPathVaryasyonsuzKarg10);
+                #region Varyasyonsuz
 
-                DataTable dataTable = dataSet.Tables[0];
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    string barcode = row["barcode"].ToString();
-                    string brand = row["product_brand"].ToString();
+                Varyasyonsuz(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
 
-                    row["barcode"] = "SYG-" + barcode;
-                    row["product_brand"] = "SYG-" + brand;
-                }
+                #endregion
 
-                dataSet.WriteXml(xmlPathVaryasyonluKarg10);
-                dataSet.WriteXml(xmlPathVaryasyonsuzKarg10);
+                #region Varyasyonlu
+
+                Varyasyonlu(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
+
+                #endregion
+
+                #region xmlCek
+
+                xmlCek(xmlCekUrl, xmlCekPath);
+
+                #endregion
 
                 string ftpUrl = "ftp://ftp.sygstore.com.tr/public_html/XML/";
                 string ftpUsername = "u1292730";
                 string ftpPassword = "15963VeksiS-";
 
-                using (var fileStream = File.OpenRead(xmlPathVaryasyonluKarg10))
+                using (var client = new WebClient())
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + xmlPathVaryasyonluKarg10);
-                    ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
-
-                    using (var ftpStream = ftpRequest.GetRequestStream())
-                    {
-                        fileStream.CopyTo(ftpStream);
-                    }
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + xmlPathVaryasyonsuzKarg10, WebRequestMethods.Ftp.UploadFile, xmlPathVaryasyonsuzKarg10);
                 }
-
-                using (var fileStream = File.OpenRead(xmlPathVaryasyonsuzKarg10))
+                using (var client = new WebClient())
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(ftpUrl + xmlPathVaryasyonsuzKarg10);
-                    ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
-
-                    using (var ftpStream = ftpRequest.GetRequestStream())
-                    {
-                        fileStream.CopyTo(ftpStream);
-                    }
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + xmlPathVaryasyonluKarg10, WebRequestMethods.Ftp.UploadFile, xmlPathVaryasyonluKarg10);
                 }
-                timer.Stop();
-                timer.Start();
             }
             catch (Exception ex)
             {
@@ -116,6 +112,50 @@ namespace xmlDataReplacement
 
                 //smtp.Send(ePosta);
             }
+        }
+        public static void Varyasyonlu(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach (XElement product in root.Elements())
+            {
+                product.Element("barcode").Value = "SYG-" + product.Element("barcode").Value;
+                product.Element("product_brand").Value = "SYG-" + product.Element("product_brand").Value;
+                foreach (XElement variant in product.Elements("variants").Elements())
+                {
+                    variant.Element("barcode").Value = "SYG-" + variant.Element("barcode").Value;
+                    variant.Element("product_brand").Value = "SYG-" + variant.Element("product_brand").Value;
+                }
+            }
+
+            doc.Save(savepath);
+        }
+        public static void Varyasyonsuz(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach (XElement product in root.Elements())
+            {
+                product.Element("barcode").Value = "SYG-" + product.Element("barcode").Value;
+                product.Element("product_brand").Value = "SYG-" + product.Element("product_brand").Value;
+            }
+
+            doc.Save(savepath);
+        }
+        public static void xmlCek(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach (XElement product in root.Elements())
+            {
+                product.Element("barcode").Value = $"MVSN- {product.Element("Barcode").Value}";
+                product.Element("Marka").Value = $"MVSN- {product.Element("Marka").Value}";
+            }
+
+            doc.Save(savepath);
         }
     }
 }

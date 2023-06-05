@@ -22,15 +22,23 @@ namespace xmlDataReplacement
         #region URL
 
         private string xmlUrlVaryasyonsuzKarg10 = "https://karg10.com/disari-al/qff7cm9h/54";
+        private string mvsnXmlUrlVaryasyonsuzKarg10 = "https://karg10.com/disari-al/qff7cm9h/54";
         string xmlUrlVaryasyonluKarg10 = "https://karg10.com/disari-al/l2h3sdb3/55";
+        string mvsnXmlUrlVaryasyonluKarg10 = "https://karg10.com/disari-al/l2h3sdb3/55";
         string xmlCekUrl = "https://www.xmlcek.com/wp-content/uploads/woo-feed/custom/xml/xmllink.xml";
+        string teknoTokUrl = "https://teknotok.com/wp-load.php?security_token=b3203d92b4e495eb&export_id=3&action=get_data";
+        string xmlTedarikUrl = "https://www.xmltedarik.com/export/1/1488S4586M1488";
         #endregion
 
         #region PATH
 
         private string xmlPathVaryasyonsuzKarg10 = "varyasyonsuzKarg10.xml";
+        private string mvsnXmlPathVaryasyonsuzKarg10 = "mvsnVaryasyonsuzKarg10.xml";
         string xmlPathVaryasyonluKarg10 = "varyasyonluKarg10.xml";
+        string mvsnXmlPathVaryasyonluKarg10 = "mvsnVaryasyonluKarg10.xml";
         string xmlCekPath = "xmlCek.xml";
+        string teknoTokPath = "teknoTok.xml";
+        string xmlTedarikPath = "xmlTedarik.xml";
         #endregion
 
         public XmlData()
@@ -68,10 +76,31 @@ namespace xmlDataReplacement
 
                 #endregion
 
+                #region mvsnVaryasyonsuz
+
+                mvsnVaryasyonsuz(mvsnXmlUrlVaryasyonsuzKarg10, mvsnXmlPathVaryasyonsuzKarg10);
+
+                #endregion
+
+                #region mvsnVaryasyonlu
+
+                mvsnVaryasyonlu(mvsnXmlUrlVaryasyonluKarg10, mvsnXmlPathVaryasyonluKarg10);
+
+                #endregion
+
                 #region xmlCek
 
                 xmlCek(xmlCekUrl, xmlCekPath);
 
+                #endregion
+
+                #region Teknotok
+
+                teknoTok(teknoTokUrl, teknoTokPath);
+                #endregion
+
+                #region xmlTedarik
+                xmlTedarik(xmlTedarikUrl, xmlTedarikPath);
                 #endregion
 
                 string ftpUrl = "ftp://ftp.sygstore.com.tr/public_html/XML/";
@@ -144,6 +173,37 @@ namespace xmlDataReplacement
 
             doc.Save(savepath);
         }
+        public static void mvsnVaryasyonlu(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach (XElement product in root.Elements())
+            {
+                product.Element("barcode").Value = "MVSN-" + product.Element("barcode").Value;
+                product.Element("product_brand").Value = "MVSN-" + product.Element("product_brand").Value;
+                foreach (XElement variant in product.Elements("variants").Elements())
+                {
+                    variant.Element("barcode").Value = "MVSN-" + variant.Element("barcode").Value;
+                    variant.Element("product_brand").Value = "MVSN-" + variant.Element("product_brand").Value;
+                }
+            }
+
+            doc.Save(savepath);
+        }
+        public static void mvsnVaryasyonsuz(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach (XElement product in root.Elements())
+            {
+                product.Element("barcode").Value = "MVSN-" + product.Element("barcode").Value;
+                product.Element("product_brand").Value = "MVSN-" + product.Element("product_brand").Value;
+            }
+
+            doc.Save(savepath);
+        }
         public static void xmlCek(string url, string savepath)
         {
             var doc = XDocument.Load(url);
@@ -155,6 +215,30 @@ namespace xmlDataReplacement
                 product.Element("Marka").Value = $"MVSN- {product.Element("Marka").Value}";
             }
 
+            doc.Save(savepath);
+        }
+        public static void teknoTok(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach(XElement product in root.Elements())
+            {
+                product.Element("Sku").Value = $"MVSN- {product.Element("Sku").Value}";
+                product.Element("Markalar").Value = $"MVSN- {product.Element("Markalar").Value}";
+            }
+            doc.Save(savepath);
+        }
+        public static void xmlTedarik(string url, string savepath)
+        {
+            var doc = XDocument.Load(url);
+            XElement root = doc.Root;
+
+            foreach (XElement product in root.Elements())
+            {
+                product.Element("barcode").Value = $"MVSN- {product.Element("barcode").Value}";
+                product.Element("brand").Value = $"MVSN- {product.Element("brand").Value}";
+            }
             doc.Save(savepath);
         }
     }

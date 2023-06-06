@@ -22,23 +22,13 @@ namespace xmlDataReplacement
         #region URL
 
         private string xmlUrlVaryasyonsuzKarg10 = "https://karg10.com/disari-al/qff7cm9h/54";
-        private string mvsnXmlUrlVaryasyonsuzKarg10 = "https://karg10.com/disari-al/qff7cm9h/54";
         string xmlUrlVaryasyonluKarg10 = "https://karg10.com/disari-al/l2h3sdb3/55";
-        string mvsnXmlUrlVaryasyonluKarg10 = "https://karg10.com/disari-al/l2h3sdb3/55";
-        string xmlCekUrl = "https://www.xmlcek.com/wp-content/uploads/woo-feed/custom/xml/xmllink.xml";
-        string teknoTokUrl = "https://teknotok.com/wp-load.php?security_token=b3203d92b4e495eb&export_id=3&action=get_data";
-        string xmlTedarikUrl = "https://www.xmltedarik.com/export/1/1488S4586M1488";
         #endregion
 
         #region PATH
 
         private string xmlPathVaryasyonsuzKarg10 = "varyasyonsuzKarg10.xml";
-        private string mvsnXmlPathVaryasyonsuzKarg10 = "mvsnVaryasyonsuzKarg10.xml";
         string xmlPathVaryasyonluKarg10 = "varyasyonluKarg10.xml";
-        string mvsnXmlPathVaryasyonluKarg10 = "mvsnVaryasyonluKarg10.xml";
-        string xmlCekPath = "xmlCek.xml";
-        string teknoTokPath = "teknoTok.xml";
-        string xmlTedarikPath = "xmlTedarik.xml";
         #endregion
 
         public XmlData()
@@ -46,7 +36,7 @@ namespace xmlDataReplacement
             InitializeComponent();
 
             timer = new Timer();
-            timer.Interval = 60 * 60 * 1000;
+            timer.Interval = 30 * 60 * 1000;
             timer.Tick += Timer_Tick;
 
             timer.Start();
@@ -61,11 +51,6 @@ namespace xmlDataReplacement
                 {
                     client.DownloadFile(xmlUrlVaryasyonsuzKarg10, xmlPathVaryasyonsuzKarg10);
                     client.DownloadFile(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
-                    client.DownloadFile(mvsnXmlUrlVaryasyonsuzKarg10, mvsnXmlPathVaryasyonsuzKarg10);
-                    client.DownloadFile(mvsnXmlUrlVaryasyonluKarg10, mvsnXmlPathVaryasyonluKarg10);
-                    client.DownloadFile(xmlCekUrl, xmlCekPath);
-                    client.DownloadFile(teknoTokUrl, teknoTokPath);
-                    client.DownloadFile(xmlTedarikUrl, xmlTedarikPath);
                 }
 
                 // Xml verisini okuma, değiştirme ve kaydetme işlemi
@@ -79,33 +64,6 @@ namespace xmlDataReplacement
 
                 Varyasyonlu(xmlUrlVaryasyonluKarg10, xmlPathVaryasyonluKarg10);
 
-                #endregion
-
-                #region mvsnVaryasyonsuz
-
-                mvsnVaryasyonsuz(mvsnXmlUrlVaryasyonsuzKarg10, mvsnXmlPathVaryasyonsuzKarg10);
-
-                #endregion
-
-                #region mvsnVaryasyonlu
-
-                mvsnVaryasyonlu(mvsnXmlUrlVaryasyonluKarg10, mvsnXmlPathVaryasyonluKarg10);
-
-                #endregion
-
-                #region xmlCek
-
-                xmlCek(xmlCekUrl, xmlCekPath);
-
-                #endregion
-
-                #region Teknotok
-
-                teknoTok(teknoTokUrl, teknoTokPath);
-                #endregion
-
-                #region xmlTedarik
-                xmlTedarik(xmlTedarikUrl, xmlTedarikPath);
                 #endregion
 
                 string ftpUrl = "ftp://ftp.sygstore.com.tr/public_html/XML/";
@@ -124,31 +82,6 @@ namespace xmlDataReplacement
                 {
                     client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
                     client.UploadFile(ftpUrl + xmlPathVaryasyonluKarg10, WebRequestMethods.Ftp.UploadFile, xmlPathVaryasyonluKarg10);
-                }
-                using (var client = new WebClient())
-                {
-                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    client.UploadFile(ftpUrl + mvsnXmlPathVaryasyonsuzKarg10, WebRequestMethods.Ftp.UploadFile, mvsnXmlPathVaryasyonsuzKarg10);
-                }
-                using (var client = new WebClient())
-                {
-                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    client.UploadFile(ftpUrl + mvsnXmlPathVaryasyonluKarg10, WebRequestMethods.Ftp.UploadFile, mvsnXmlPathVaryasyonluKarg10);
-                }
-                using (var client = new WebClient())
-                {
-                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    client.UploadFile(ftpUrl + xmlCekPath, WebRequestMethods.Ftp.UploadFile, xmlCekPath);
-                }
-                using (var client = new WebClient())
-                {
-                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    client.UploadFile(ftpUrl + teknoTokPath, WebRequestMethods.Ftp.UploadFile, teknoTokPath);
-                }
-                using (var client = new WebClient())
-                {
-                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-                    client.UploadFile(ftpUrl + xmlTedarikPath, WebRequestMethods.Ftp.UploadFile, xmlTedarikPath);
                 }
                 #endregion
 
@@ -187,74 +120,6 @@ namespace xmlDataReplacement
                 product.Element("product_brand").Value = "SYG-" + product.Element("product_brand").Value;
             }
 
-            doc.Save(savepath);
-        }
-        public static void mvsnVaryasyonlu(string url, string savepath)
-        {
-            var doc = XDocument.Load(url);
-            XElement root = doc.Root;
-
-            foreach (XElement product in root.Elements())
-            {
-                product.Element("barcode").Value = "MVSN-" + product.Element("barcode").Value;
-                product.Element("product_brand").Value = "MVSN-" + product.Element("product_brand").Value;
-                foreach (XElement variant in product.Elements("variants").Elements())
-                {
-                    variant.Element("barcode").Value = "MVSN-" + variant.Element("barcode").Value;
-                    variant.Element("product_brand").Value = "MVSN-" + variant.Element("product_brand").Value;
-                }
-            }
-
-            doc.Save(savepath);
-        }
-        public static void mvsnVaryasyonsuz(string url, string savepath)
-        {
-            var doc = XDocument.Load(url);
-            XElement root = doc.Root;
-
-            foreach (XElement product in root.Elements())
-            {
-                product.Element("barcode").Value = "MVSN-" + product.Element("barcode").Value;
-                product.Element("product_brand").Value = "MVSN-" + product.Element("product_brand").Value;
-            }
-
-            doc.Save(savepath);
-        }
-        public static void xmlCek(string url, string savepath)
-        {
-            var doc = XDocument.Load(url);
-            XElement root = doc.Root;
-
-            foreach (XElement product in root.Elements())
-            {
-                product.Element("barcode").Value = $"MVSN- {product.Element("Barcode").Value}";
-                product.Element("Marka").Value = $"MVSN- {product.Element("Marka").Value}";
-            }
-
-            doc.Save(savepath);
-        }
-        public static void teknoTok(string url, string savepath)
-        {
-            var doc = XDocument.Load(url);
-            XElement root = doc.Root;
-
-            foreach(XElement product in root.Elements())
-            {
-                product.Element("Sku").Value = $"MVSN- {product.Element("Sku").Value}";
-                product.Element("Markalar").Value = $"MVSN- {product.Element("Markalar").Value}";
-            }
-            doc.Save(savepath);
-        }
-        public static void xmlTedarik(string url, string savepath)
-        {
-            var doc = XDocument.Load(url);
-            XElement root = doc.Root;
-
-            foreach (XElement product in root.Elements())
-            {
-                product.Element("barcode").Value = $"MVSN- {product.Element("barcode").Value}";
-                product.Element("brand").Value = $"MVSN- {product.Element("brand").Value}";
-            }
             doc.Save(savepath);
         }
     }

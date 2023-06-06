@@ -46,7 +46,7 @@ namespace xmlDataReplacement
             InitializeComponent();
 
             timer = new Timer();
-            timer.Interval = 30 * 60 * 1000;
+            timer.Interval = 60 * 60 * 1000;
             timer.Tick += Timer_Tick;
 
             timer.Start();
@@ -112,6 +112,9 @@ namespace xmlDataReplacement
                 string ftpUsername = "u1292730";
                 string ftpPassword = "15963VeksiS-";
 
+                // FTP Klasörüne yükleme işlemi
+
+                #region FTP
                 using (var client = new WebClient())
                 {
                     client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
@@ -122,29 +125,37 @@ namespace xmlDataReplacement
                     client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
                     client.UploadFile(ftpUrl + xmlPathVaryasyonluKarg10, WebRequestMethods.Ftp.UploadFile, xmlPathVaryasyonluKarg10);
                 }
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + mvsnXmlPathVaryasyonsuzKarg10, WebRequestMethods.Ftp.UploadFile, mvsnXmlPathVaryasyonsuzKarg10);
+                }
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + mvsnXmlPathVaryasyonluKarg10, WebRequestMethods.Ftp.UploadFile, mvsnXmlPathVaryasyonluKarg10);
+                }
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + xmlCekPath, WebRequestMethods.Ftp.UploadFile, xmlCekPath);
+                }
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + teknoTokPath, WebRequestMethods.Ftp.UploadFile, teknoTokPath);
+                }
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    client.UploadFile(ftpUrl + xmlTedarikPath, WebRequestMethods.Ftp.UploadFile, xmlTedarikPath);
+                }
+                #endregion
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hata: " + ex.Message);
-
-                //string username = "iletisim@sygstore.com.tr";
-                //string password = "15963VeksiS-";
-                //MailMessage ePosta = new MailMessage();
-                //ePosta.From = new MailAddress("iletisim@sygstore.com.tr");
-                //ePosta.To.Add(new MailAddress("HsnHsyn_Esk@hotmail.com"));
-                //ePosta.Subject = "XML Dosyası güncellenirken bir hata oluştu";
-                //ePosta.Body = "Hata: " + ex.Message;
-
-                //SmtpClient smtp = new SmtpClient();
-                //smtp.Credentials = new NetworkCredential(username, password);
-                //smtp.EnableSsl = true;
-                //smtp.UseDefaultCredentials = false;
-                //smtp.Port = 465;
-                //smtp.Host = "mail.sygstore.com.tr";
-
-                //ServicePointManager.ServerCertificateValidationCallback += (s, certificate, chain, sslPolicyErrors) => true;
-
-                //smtp.Send(ePosta);
             }
         }
         public static void Varyasyonlu(string url, string savepath)
